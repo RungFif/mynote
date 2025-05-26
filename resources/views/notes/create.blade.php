@@ -43,13 +43,7 @@
             <form id="create-note-form" action="{{ route('notes.store') }}" method="POST"
                 class="bg-white/90 shadow-2xl rounded-3xl p-8 space-y-6 backdrop-blur-md border border-white/30 relative overflow-hidden">
 
-                <!-- Decorative Corner Elements -->
-                <div
-                    class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-100 to-purple-100 opacity-20 rounded-bl-3xl">
-                </div>
-                <div
-                    class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-pink-100 to-yellow-100 opacity-20 rounded-tr-3xl">
-                </div>
+            
 
                 <!-- Pulsing Glow Effect -->
                 <div
