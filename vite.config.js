@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import { fileURLToPath, URL } from 'url';
 
 export default defineConfig({
     plugins: [
@@ -8,4 +9,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            'animejs': fileURLToPath(new URL('./node_modules/animejs/lib/anime.esm.js', import.meta.url)),
+        },
+    },
 });
