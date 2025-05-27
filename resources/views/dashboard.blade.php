@@ -22,14 +22,7 @@
 
         <div class="relative z-10">
             <div id="dashboard-card"
-                class="bg-white shadow-2xl rounded-3xl p-8 border border-gray-100 backdrop-blur-sm transform transition-all duration-500 hover:shadow-3xl">
-                <!-- Decorative Corner Elements -->
-                <div
-                    class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-50 to-purple-50 opacity-30 rounded-bl-3xl">
-                </div>
-                <div
-                    class="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-br from-pink-50 to-yellow-50 opacity-30 rounded-tr-3xl">
-                </div>
+                class="bg-white shadow-2xl rounded-3xl p-8 border border-gray-100 backdrop-blur-sm transform transition-all duration-500 hover:shadow-3xl">   
 
                 <!-- Pulsing Glow Effect -->
                 <div

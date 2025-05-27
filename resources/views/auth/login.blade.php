@@ -214,29 +214,14 @@
                         <div class="absolute inset-0 flex items-center">
                             <div class="w-full border-t border-gray-300"></div>
                         </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 grid grid-cols-2 gap-3">
-                        <a href="#"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300 transform hover:scale-[1.02]">
-                            <i class="fab fa-google text-red-500 mr-2"></i> Google
-                        </a>
-                        <a href="#"
-                            class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300 transform hover:scale-[1.02]">
-                            <i class="fab fa-github text-gray-800 mr-2"></i> GitHub
-                        </a>
                     </div>
                 </div>
-            </div>
 
-            <div class="px-8 py-4 bg-gray-50 text-center text-sm text-gray-500">
-                Don't have an account? <a href="{{ route('register') }}"
-                    class="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-300">Sign up</a>
+                <div class="px-8 py-4 bg-gray-50 text-center text-sm text-gray-500">
+                    Don't have an account? <a href="{{ route('register') }}"
+                        class="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-300">Sign up</a>
+                </div>
             </div>
-        </div>
     </main>
 
     <footer class="text-center py-4 text-gray-500 text-sm">
@@ -250,7 +235,7 @@
             for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className =
-                'absolute rounded-full bg-gradient-to-r from-blue-300 to-purple-300 opacity-20';
+                    'absolute rounded-full bg-gradient-to-r from-blue-300 to-purple-300 opacity-20';
                 particle.style.width = `${Math.random() * 8 + 2}px`;
                 particle.style.height = particle.style.width;
                 particle.style.left = `${Math.random() * 100}%`;
