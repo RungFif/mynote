@@ -22,14 +22,14 @@ class NoteController extends Controller
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%$search%")
-                  ->orWhere('content', 'like', "%$search%")
-                  ->orWhere('tags', 'like', "%$search%") ;
+                    ->orWhere('content', 'like', "%$search%")
+                    ->orWhere('tags', 'like', "%$search%");
             });
         }
 
         if ($request->filled('tag')) {
             $tag = $request->input('tag');
-            $query->where('tags', 'like', "%$tag%") ;
+            $query->where('tags', 'like', "%$tag%");
         }
 
         $notes = $query->latest()->get();
