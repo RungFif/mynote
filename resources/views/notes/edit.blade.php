@@ -87,6 +87,23 @@
                     </div>
                 </div>
 
+                <!-- Tags Input Field -->
+                <div class="form-group">
+                    <label class="block font-semibold mb-2 text-pink-700">Tags <span class="text-xs text-gray-400">(comma separated)</span></label>
+                    <input type="text" name="tags" value="{{ old('tags', $note->tags) }}"
+                        class="w-full border-2 border-pink-100 rounded-xl px-5 py-3 focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-lg shadow-inner"
+                        placeholder="e.g. work, personal, ideas">
+                    @error('tags')
+                        <div class="error-message text-red-600 text-sm mt-2 flex items-center">
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
                 <!-- Action Buttons with Crazy Hover Effects -->
                 <div class="flex justify-end gap-4 pt-4">
                     <a href="{{ route('notes.index') }}"
@@ -310,6 +327,24 @@
         .auto-expand {
             min-height: 150px;
             transition: height 0.2s ease-out;
+        }
+
+        /* New styles for note card tags */
+        .tag-badge {
+            @apply inline-block px-2 py-0.5 rounded bg-pink-100 text-pink-700 font-semibold text-xs;
+            animation: fade-in 0.5s ease-out;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 @endsection

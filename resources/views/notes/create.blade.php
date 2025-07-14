@@ -29,7 +29,7 @@
                     class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 mb-3">
                     <span class="title-word">Create</span>
                     <span class="title-word">Your</span>
-                    <span class="title-word">Masterpiece</span>
+                    <span class="title-word">Notes</span>
                 </h1>
                 <p id="subtitle" class="text-lg text-gray-600 max-w-xl mx-auto opacity-0">
                     <span class="inline-block">Where ideas come to life with</span>
@@ -73,6 +73,22 @@
                         class="w-full border-2 border-purple-100 rounded-xl px-5 py-3 focus:border-purple-400 focus:ring-4 focus:ring-purple-100 transition-all duration-300 text-lg shadow-inner resize-none auto-expand opacity-0 transform"
                         required>{{ old('content') }}</textarea>
                     @error('content')
+                        <div class="error-message text-red-600 text-sm mt-2 flex items-center opacity-0">
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="block font-semibold mb-2 text-pink-700 opacity-0">Tags <span class="text-xs text-gray-400">(comma separated)</span></label>
+                    <input type="text" name="tags" value="{{ old('tags') }}"
+                        class="w-full border-2 border-pink-100 rounded-xl px-5 py-3 focus:border-pink-400 focus:ring-4 focus:ring-pink-100 transition-all duration-300 text-lg shadow-inner opacity-0 transform"
+                        placeholder="e.g. work, personal, ideas">
+                    @error('tags')
                         <div class="error-message text-red-600 text-sm mt-2 flex items-center opacity-0">
                             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -333,36 +349,7 @@
                     });
                 });
             });
-
-            // Crazy save button effects
-            const saveBtn = document.getElementById('save-btn');
-            if (saveBtn) {
-                saveBtn.addEventListener('mouseenter', function() {
-                    // Create confetti particles
-                    for (let i = 0; i < 20; i++) {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'absolute rounded-full';
-                        confetti.style.width = `${Math.random() * 10 + 5}px`;
-                        confetti.style.height = confetti.style.width;
-                        confetti.style.left = `${Math.random() * 100}%`;
-                        confetti.style.top = `${Math.random() * 100}%`;
-                        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-                        saveBtn.querySelector('.confetti').appendChild(confetti);
-
-                        anime({
-                            targets: confetti,
-                            translateY: [0, -100],
-                            translateX: () => anime.random(-50, 50),
-                            opacity: [1, 0],
-                            scale: [1, 0.5],
-                            duration: 1000,
-                            easing: 'easeOutExpo',
-                            complete: () => confetti.remove()
-                        });
-                    }
-                });
-            }
-
+            
             // Form hover effect
             const form = document.getElementById('create-note-form');
             if (form) {

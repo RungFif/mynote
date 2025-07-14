@@ -40,6 +40,16 @@
                         <span class="mx-2">|</span>
                         Last updated: {{ $note->updated_at->format('M d, Y H:i') }}
                     </div>
+
+                    @if($note->tags)
+                        <div class="mb-4 flex flex-wrap gap-2 justify-center">
+                            @foreach(explode(',', $note->tags) as $tag)
+                                <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-700 font-semibold text-xs animate-fade-in">
+                                    {{ trim($tag) }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Note Content -->

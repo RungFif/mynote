@@ -14,9 +14,25 @@ class NoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notes = Note::where('user_id', Auth::id())->latest()->get();
+        $query = Note::where('user_id', Auth::id());
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%$search%")
+                  ->orWhere('content', 'like', "%$search%")
+                  ->orWhere('tags', 'like', "%$search%") ;
+            });
+        }
+
+        if ($request->filled('tag')) {
+            $tag = $request->input('tag');
+            $query->where('tags', 'like', "%$tag%") ;
+        }
+
+        $notes = $query->latest()->get();
         return view('notes.index', compact('notes'));
     }
 
@@ -36,11 +52,13 @@ class NoteController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'tags' => 'nullable|string|max:255',
         ]);
         Note::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
             'content' => $request->content,
+            'tags' => $request->tags,
         ]);
         return redirect()->route('notes.index')->with('success', 'Note created successfully.');
     }
@@ -72,8 +90,9 @@ class NoteController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'tags' => 'nullable|string|max:255',
         ]);
-        $note->update($request->only('title', 'content'));
+        $note->update($request->only('title', 'content', 'tags'));
         return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
     }
 

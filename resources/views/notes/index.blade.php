@@ -71,6 +71,53 @@
                 </div>
             @endif
 
+            <!-- Search and Filter Bar -->
+            <form method="GET" action="{{ route('notes.index') }}" class="mb-10 flex flex-col md:flex-row items-center gap-4 justify-center relative z-20">
+                <div class="relative w-full md:w-96">
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        class="w-full px-6 py-3 rounded-full border-2 border-blue-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 bg-white/80 shadow-lg text-lg transition-all duration-300 placeholder-gray-400"
+                        placeholder="Search notes (title, content, tags)...">
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4-4m0 0A7 7 0 104 4a7 7 0 0013 13z" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="relative w-full md:w-64">
+                    <select name="tag" onchange="this.form.submit()"
+                        class="w-full px-6 py-3 rounded-full border-2 border-pink-200 focus:border-pink-400 focus:ring-4 focus:ring-pink-100 bg-white/80 shadow-lg text-lg transition-all duration-300 text-pink-700">
+                        <option value="">Filter by tag</option>
+                        @php
+                            $allTags = collect($notes)->flatMap(function($note) {
+                                return array_map('trim', explode(',', $note->tags ?? ''));
+                            })->filter()->unique()->sort();
+                        @endphp
+                        @foreach($allTags as $tag)
+                            <option value="{{ $tag }}" @if(request('tag') == $tag) selected @endif>{{ $tag }}</option>
+                        @endforeach
+                    </select>
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-pink-400 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </div>
+                <button type="submit"
+                    class="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold shadow-xl transition-all duration-300 relative overflow-hidden group">
+                    <span class="relative z-10 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Search
+                    </span>
+                    <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
+                </button>
+                @if(request('search') || request('tag'))
+                    <a href="{{ route('notes.index') }}" class="ml-2 text-sm text-gray-400 hover:text-blue-500 underline transition-all">Clear</a>
+                @endif
+            </form>
+            <!-- End Search and Filter Bar -->
+
             <!-- Notes Container with Floating Effect -->
             <div id="notes-container"
                 class="relative bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm rounded-3xl shadow-2xl divide-y divide-gray-100 overflow-hidden">
@@ -82,7 +129,14 @@
                         <div class="flex-1 min-w-0">
                             <div class="font-bold text-xl text-gray-900 mb-1 truncate">{{ $note->title }}</div>
                             <div class="text-gray-600 text-sm line-clamp-2">{{ Str::limit($note->content, 120) }}</div>
-                            <div class="mt-2 text-xs text-gray-400">{{ $note->created_at->format('M d, Y') }}</div>
+                            <div class="mt-2 text-xs text-gray-400">
+                                {{ $note->created_at->format('M d, Y') }}
+                                @if($note->tags)
+                                    <span class="ml-2 inline-block px-2 py-0.5 rounded bg-pink-100 text-pink-700 font-semibold text-xs animate-fade-in">
+                                        {{ $note->tags }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                         <div class="flex gap-4 ml-4">
                             <a href="{{ route('notes.show', $note) }}" class="show-btn transform transition-all duration-300 hover:scale-110">
@@ -392,6 +446,39 @@
                     easing: 'easeInOutSine'
                 });
             });
+
+            // Animate search/filter bar entrance
+            anime({
+                targets: 'form[action="{{ route('notes.index') }}"]',
+                translateY: [-40, 0],
+                opacity: [0, 1],
+                duration: 1000,
+                delay: 200,
+                easing: 'easeOutElastic(1, .8)'
+            });
+
+            // Animate filter dropdown on focus
+            const tagSelect = document.querySelector('select[name="tag"]');
+            if (tagSelect) {
+                tagSelect.addEventListener('focus', () => {
+                    anime({
+                        targets: tagSelect,
+                        scale: 1.04,
+                        boxShadow: '0 0 0 4px #f9a8d4',
+                        duration: 400,
+                        easing: 'easeOutBack'
+                    });
+                });
+                tagSelect.addEventListener('blur', () => {
+                    anime({
+                        targets: tagSelect,
+                        scale: 1,
+                        boxShadow: '0 0 0 0px #f9a8d4',
+                        duration: 600,
+                        easing: 'easeOutElastic(1, .5)'
+                    });
+                });
+            }
         });
     </script>
 

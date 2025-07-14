@@ -13,6 +13,7 @@ class Note extends Model
         'user_id',
         'title',
         'content',
+        'tags',
     ];
 
     public function user()
